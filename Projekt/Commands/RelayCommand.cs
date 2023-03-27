@@ -12,6 +12,7 @@ namespace Projekt.Commands
     {
         readonly Action<object> _execute;
         readonly Predicate<object> _canExecute;
+        private ICommand? resultCommand;
 
         public RelayCommand(Action<object> execute)
             :this(execute,null)
@@ -23,7 +24,13 @@ namespace Projekt.Commands
 _execute = execute ?? throw new ArgumentNullException("execute");
             _canExecute = canExecute;
         }
-            public bool CanExecute(object parameter)
+
+        public RelayCommand(ICommand? resultCommand)
+        {
+            this.resultCommand = resultCommand;
+        }
+
+        public bool CanExecute(object parameter)
         {
             return _canExecute == null || _canExecute(parameter);
         }
